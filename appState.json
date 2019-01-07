@@ -8,7 +8,8 @@
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "9c158c54-c873-43da-a4b7-5e8d7d3c1c68"
+          "9c158c54-c873-43da-a4b7-5e8d7d3c1c68",
+          "52ad5f8c-e257-43e3-831f-e02626fdf7bf"
         ],
         "isRemovable": false,
         "filePath": "LayerAddTest"
@@ -22,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "LayerAddTest/lambda.js",
-        "code": "exports.handler = function(event, context, callback) {\n    \n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "code": "let weather = require('/opt/sample-lambda-layer');\n\nexports.handler = function (event, context, callback) {\n\n    weather.getWeatherByCity(\"colombo\")\n        .then(data => {\n            console.log(\"result\", data);\n            callback(null, data);\n        })\n        .catch(err => {\n            console.log(\"Error\", err);\n            callback(err);\n        });\n}",
         "triggers": [],
         "config": {
           "runtime": "nodejs8.10",
@@ -31,15 +32,50 @@
           "layers": [
             "arn:aws:lambda:us-east-1:318300609668:layer:sample-layer-udith:5"
           ]
+        },
+        "testCases": {
+          "0015a0df-2806-4921-8830-62eb01351372": {
+            "id": "0015a0df-2806-4921-8830-62eb01351372",
+            "name": "E1",
+            "functionId": "9c158c54-c873-43da-a4b7-5e8d7d3c1c68",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "52ad5f8c-e257-43e3-831f-e02626fdf7bf": {
+        "id": "52ad5f8c-e257-43e3-831f-e02626fdf7bf",
+        "parent": "742d3300-813e-45bc-834d-f4407a76d2f2",
+        "name": "NonLayerLambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "LayerAddTest/NonLayerLambda.js",
+        "code": "exports.handler = function(event, context, callback) {\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "triggers": [],
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "testCases": {
+          "03fba80a-efa6-4b3d-8d1f-96cff7be605d": {
+            "id": "03fba80a-efa6-4b3d-8d1f-96cff7be605d",
+            "name": "E2",
+            "functionId": "52ad5f8c-e257-43e3-831f-e02626fdf7bf",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
         }
       }
     },
     "deletedFiles": [],
     "rootNode": "742d3300-813e-45bc-834d-f4407a76d2f2",
     "openFiles": [
-      "9c158c54-c873-43da-a4b7-5e8d7d3c1c68"
+      "9c158c54-c873-43da-a4b7-5e8d7d3c1c68",
+      "52ad5f8c-e257-43e3-831f-e02626fdf7bf"
     ],
-    "currentFileId": "9c158c54-c873-43da-a4b7-5e8d7d3c1c68",
+    "currentFileId": "52ad5f8c-e257-43e3-831f-e02626fdf7bf",
     "resources": {},
     "envVariables": [
       {
@@ -63,7 +99,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1546596755573
+    "lastSave": 1546851729540
   },
   "VCS_STATE": {
     "provider": "GitHub",
